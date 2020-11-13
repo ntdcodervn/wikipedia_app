@@ -78,12 +78,23 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
             ),
           ]),
       padding: EdgeInsets.only(left: 15, right: 15, top: 40, bottom: 20),
-      child: BoxSearchTextField(
-        controller: model.searchTextController,
-        hintText: search_hint_text,
-        onSearch: (value) {
-          model.onSearch();
-        },
+      child: Row(
+        children: [
+          Expanded(
+            child: BoxSearchTextField(
+              controller: model.searchTextController,
+              hintText: search_hint_text,
+              onSearch: (value) {
+                model.onSearch();
+              },
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.bookmark_outline),
+            color: Colors.grey[500],
+            onPressed: () {},
+          )
+        ],
       ),
     );
   }
