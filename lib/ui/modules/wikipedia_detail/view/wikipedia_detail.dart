@@ -41,14 +41,17 @@ class _WikiDetailPageState extends BaseState<WikiDetailPage>
   Widget buildWidget() {
     return Consumer<WikiDetailViewModel>(builder: (context, model, child) {
       return Scaffold(
-          appBar: _appBar(),
-          body: SafeArea(
-              child: LoadingWidget(
-                  message: please_wait,
-                  status: model.isLoadData,
-                  child: model.wikiDetail != null
-                      ? _buildBody(model.wikiDetail)
-                      : Container())));
+        appBar: _appBar(),
+        body: SafeArea(
+          child: LoadingWidget(
+            message: please_wait,
+            status: model.isLoadData,
+            child: model.wikiDetail != null
+                ? _buildBody(model.wikiDetail)
+                : Container(),
+          ),
+        ),
+      );
     });
   }
 

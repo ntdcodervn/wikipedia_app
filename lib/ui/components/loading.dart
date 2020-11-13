@@ -27,8 +27,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: <Widget>[widget.child, _loadingWidget(widget.status)]
-    );
+        children: <Widget>[widget.child, _loadingWidget(widget.status)]);
   }
 
   Widget _loadingWidget(bool loadingWidget) {
@@ -37,7 +36,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
             alignment: Alignment.center,
             color: widget.backgroundTransparent == true
                 ? Colors.transparent
-                : Colors.black.withOpacity(0.7),
+                : Colors.white.withOpacity(0.7),
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -47,7 +46,10 @@ class _LoadingWidgetState extends State<LoadingWidget> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: TextCustomStyle(widget.message,style: styleTextLoading,),
+                    child: TextCustomStyle(
+                      widget.message,
+                      style: styleTextLoading,
+                    ),
                   ),
                 ]),
           )

@@ -6,19 +6,20 @@ void push(BuildContext context, Widget page) {
 }
 
 void pushWithAnimation(BuildContext context, Widget page) {
-  Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight, child: page));
+  Navigator.push(context,
+      PageTransition(type: PageTransitionType.bottomToTop, child: page));
 }
 
 void pop(BuildContext context) {
   Navigator.pop(context);
 }
 
-void pushReplacement(BuildContext context, Widget page){
-  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => page));
+void pushReplacement(BuildContext context, Widget page) {
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => page));
 }
 
 void pushReplacementWithAnimation(BuildContext context, Widget page) {
-  Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight, child: page));
+  Navigator.push(context,
+      PageTransition(type: PageTransitionType.bottomToTop, child: page));
 }
-
-

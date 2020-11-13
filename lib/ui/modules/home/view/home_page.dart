@@ -51,36 +51,6 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
     });
   }
 
-  Widget _buildHistory() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.only(top: 10.0),
-            alignment: Alignment.centerLeft,
-            child: Text(
-              "Từ khoá đã tìm kiếm",
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            height: 50,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: List.generate(
-                histories.length,
-                (index) => TagItem(
-                  label: histories[index],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _buildBody(HomeViewModel model) {
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -96,11 +66,17 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
   Widget _buildSearch(HomeViewModel model) {
     return Container(
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(width: 1, color: Colors.grey[200]),
-        ),
-        color: Colors.white,
-      ),
+          border: Border(
+            bottom: BorderSide(width: 1, color: Colors.grey[200]),
+          ),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.blue.withOpacity(0.1),
+              blurRadius: 1,
+              offset: Offset(0, 2),
+            ),
+          ]),
       padding: EdgeInsets.only(left: 15, right: 15, top: 40, bottom: 20),
       child: BoxSearchTextField(
         controller: model.searchTextController,
@@ -118,7 +94,6 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
-            _buildHistory(),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: ListView.builder(

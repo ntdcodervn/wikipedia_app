@@ -19,8 +19,8 @@ class ItemWikipediaWidget extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.grey[400],
-            blurRadius: 5.0,
-            offset: Offset(0, 5),
+            blurRadius: 4.0,
+            offset: Offset(0, 3),
           ),
         ],
         color: Colors.white,
