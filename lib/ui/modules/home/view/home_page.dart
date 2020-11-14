@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:wikipedia_app/base/base_state.dart';
 import 'package:wikipedia_app/data/model/error/search_error.dart';
