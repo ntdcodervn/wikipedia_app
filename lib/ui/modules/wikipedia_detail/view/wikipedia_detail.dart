@@ -19,8 +19,6 @@ import 'package:wikipedia_app/data/sources/local/daos/wiki_dao.dart';
 import 'package:wikipedia_app/data/sources/local/tables/wiki_table.dart';
 import 'package:wikipedia_app/routes/navigation.dart';
 
-import '../../home/view/home_page.dart';
-
 class WikiDetailPage extends StatefulWidget {
   final String title;
   final Wikipedia wikipediaDetail;
