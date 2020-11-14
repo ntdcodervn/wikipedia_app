@@ -28,6 +28,7 @@ class WikiDAO {
   }
 
   Future<List<Wikipedia>> getWikies(int limit) async {
+    if (_db == null) return [];
     List<Map> maps = await _db.query(WikiTable.tableName,
         orderBy: "${WikiTable.columnId} DESC",
         columns: [
@@ -49,19 +50,22 @@ class WikiDAO {
   }
 
   Future<List<Wikipedia>> getWikiesBookmark() async {
-    List<Map> maps = await _db.query(WikiTable.tableName,
-        orderBy: "${WikiTable.columnId} DESC",
-        columns: [
-          WikiTable.columnId,
-          WikiTable.columnTitle,
-          WikiTable.columnKey,
-          WikiTable.columnDescription,
-          WikiTable.columnExcerpt,
-          WikiTable.columnThumbnail,
-          WikiTable.columnBookmark
-        ],
-        where: "${WikiTable.columnBookmark} = ?",
-        whereArgs: [1],);
+    if (_db == null) return [];
+    List<Map> maps = await _db.query(
+      WikiTable.tableName,
+      orderBy: "${WikiTable.columnId} DESC",
+      columns: [
+        WikiTable.columnId,
+        WikiTable.columnTitle,
+        WikiTable.columnKey,
+        WikiTable.columnDescription,
+        WikiTable.columnExcerpt,
+        WikiTable.columnThumbnail,
+        WikiTable.columnBookmark
+      ],
+      where: "${WikiTable.columnBookmark} = ?",
+      whereArgs: [1],
+    );
 
     List<Wikipedia> wikies = [];
     for (Map<String, dynamic> result in maps) {

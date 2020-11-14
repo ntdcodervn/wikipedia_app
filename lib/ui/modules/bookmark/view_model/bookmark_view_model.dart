@@ -65,7 +65,6 @@ class BookmarkViewModel extends ChangeNotifier {
   void getWikiesLocal(int limit) async {
     searchResponse = SearchResponse();
     searchResponse.pages = await _wikiDAO.getWikies(limit);
-    print("${searchResponse.pages.length}");
     notifyListeners();
   }
 
@@ -73,7 +72,6 @@ class BookmarkViewModel extends ChangeNotifier {
   void getWikiesBookmarkLocal() async {
     searchResponse = SearchResponse();
     searchResponse.pages = await _wikiDAO.getWikiesBookmark();
-    print("${searchResponse.pages.length}");
     notifyListeners();
   }
 

@@ -15,7 +15,7 @@ import 'package:wikipedia_app/ui/components/box_search_textfield.dart';
 import 'package:wikipedia_app/ui/components/item_wikipedia.dart';
 import 'package:wikipedia_app/utils/check_internet.dart';
 import 'package:wikipedia_app/values/strings.dart';
-import '../../../../routes/navigation.dart';
+
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,8 +29,10 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
   @override
   void initState() {
     super.initState();
-    mModel = Provider.of<HomeViewModel>(context, listen: true);
+    mModel = Provider.of<HomeViewModel>(context, listen: false);
     mModel.contract = this;
+    mModel.getWikiesLocal(20);
+
   }
 
   void onGoBack() {
