@@ -17,6 +17,7 @@ class _SplashScreenState extends BaseState<SplashScreen> {
   void initState() {
     SystemChrome.setEnabledSystemUIOverlays([]);
     super.initState();
+
     Provider.of<SplashViewModel>(context, listen: false).splashAction(context);
   }
 

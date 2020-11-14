@@ -8,39 +8,37 @@ import 'package:wikipedia_app/data/model/local_model/wikipedia.dart';
 import 'package:wikipedia_app/data/model/response/search_response.dart';
 import 'package:wikipedia_app/routes/navigation.dart';
 import 'package:wikipedia_app/ui/components/loading.dart';
-import 'package:wikipedia_app/ui/modules/bookmark/view/bookmark_page.dart';
-import 'package:wikipedia_app/ui/modules/home/contract/home_contract.dart';
-import 'package:wikipedia_app/ui/modules/home/view_model/home_view_model.dart';
+import 'package:wikipedia_app/ui/modules/bookmark/contract/bookmark_contract.dart';
+import 'package:wikipedia_app/ui/modules/bookmark/view_model/bookmark_view_model.dart';
 import 'package:wikipedia_app/ui/modules/wikipedia_detail/view/wikipedia_detail.dart';
-import 'package:wikipedia_app/ui/components/box_search_textfield.dart';
 import 'package:wikipedia_app/ui/components/item_wikipedia.dart';
 import 'package:wikipedia_app/utils/check_internet.dart';
 import 'package:wikipedia_app/values/strings.dart';
-import '../../../../routes/navigation.dart';
 
-class HomePage extends StatefulWidget {
+class Bookmark extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _BookmarkState createState() => _BookmarkState();
 }
 
-class _HomePageState extends BaseState<HomePage> implements HomeContract {
-  HomeViewModel mModel;
-  List<String> histories = [];
+class _BookmarkState extends BaseState<Bookmark> implements BookmarkContract {
+  BookmarkViewModel mModel;
+  List<Wikipedia> listWikipedia = [];
 
   @override
   void initState() {
     super.initState();
-    mModel = Provider.of<HomeViewModel>(context, listen: true);
+    mModel = Provider.of<BookmarkViewModel>(context, listen: false);
     mModel.contract = this;
+    mModel.getWikiesBookmarkLocal();
   }
 
   void onGoBack() {
-    mModel.getWikiesLocal(20);
+    mModel.getWikiesBookmarkLocal();
   }
 
   @override
   Widget buildWidget() {
-    return Consumer<HomeViewModel>(builder: (context, model, child) {
+    return Consumer<BookmarkViewModel>(builder: (context, model, child) {
       return Scaffold(
         resizeToAvoidBottomInset: false,
         body: GestureDetector(
@@ -58,7 +56,7 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
     });
   }
 
-  Widget _buildBody(HomeViewModel model) {
+  Widget _buildBody(BookmarkViewModel model) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -70,7 +68,7 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
     );
   }
 
-  Widget _buildSearch(HomeViewModel model) {
+  Widget _buildSearch(BookmarkViewModel model) {
     return Container(
       decoration: BoxDecoration(
           border: Border(
@@ -84,26 +82,22 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
               offset: Offset(0, 2),
             ),
           ]),
-      padding: EdgeInsets.only(left: 15, right: 15, top: 60, bottom: 20),
+      padding: EdgeInsets.only(left: 15, right: 15, top: 60, bottom: 10),
       child: Row(
         children: [
-          Expanded(
-            child: BoxSearchTextField(
-              controller: model.searchTextController,
-              hintText: search_hint_text,
-              onSearch: (value) {
-                model.onSearch();
-              },
-            ),
-          ),
           IconButton(
-            icon: Icon(Icons.bookmark_outline),
+            icon: Icon(Icons.arrow_back),
             color: Colors.grey[500],
             onPressed: () {
-              Route route = MaterialPageRoute(builder: (context) => Bookmark());
-              Navigator.push(context, route).then((value) => onGoBack());
+              Navigator.pop(context);
             },
-          )
+          ),
+          Expanded(
+            child: Text(
+              'Saved post',
+              style: TextStyle(fontSize: 18),
+            ),
+          ),
         ],
       ),
     );
@@ -126,11 +120,14 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
                     onTap: () {
                       checkInterNet().then((value) {
                         if (value != null && value) {
-                          pushWithAnimation(
-                              context,
-                              WikiDetailPage(
-                                  title: wikipedia[index].title,
-                                  wikipediaDetail: wikipedia[index]));
+                          Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.bottomToTop,
+                                      child: WikiDetailPage(
+                                          title: wikipedia[index].title,
+                                          wikipediaDetail: wikipedia[index])))
+                              .then((value) => onGoBack());
                         } else {
                           showDialog();
                         }

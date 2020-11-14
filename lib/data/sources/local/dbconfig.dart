@@ -9,6 +9,8 @@ class DbConfig {
     if (_db == null) {
       _db = await openDatabase('wiki_db.db', version: 1,
           onCreate: (Database db, int version) async {
+                    await db.execute(WikiTable.drop());
+
         await db.execute(WikiTable.create());
       });
     }

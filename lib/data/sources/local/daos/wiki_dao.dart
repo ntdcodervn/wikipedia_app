@@ -36,9 +36,32 @@ class WikiDAO {
           WikiTable.columnKey,
           WikiTable.columnDescription,
           WikiTable.columnExcerpt,
-          WikiTable.columnThumbnail
+          WikiTable.columnThumbnail,
+          WikiTable.columnBookmark
         ],
         limit: limit);
+
+    List<Wikipedia> wikies = [];
+    for (Map<String, dynamic> result in maps) {
+      wikies.add(getWikiFromRaw(result));
+    }
+    return wikies;
+  }
+
+  Future<List<Wikipedia>> getWikiesBookmark() async {
+    List<Map> maps = await _db.query(WikiTable.tableName,
+        orderBy: "${WikiTable.columnId} DESC",
+        columns: [
+          WikiTable.columnId,
+          WikiTable.columnTitle,
+          WikiTable.columnKey,
+          WikiTable.columnDescription,
+          WikiTable.columnExcerpt,
+          WikiTable.columnThumbnail,
+          WikiTable.columnBookmark
+        ],
+        where: "${WikiTable.columnBookmark} = ?",
+        whereArgs: [1],);
 
     List<Wikipedia> wikies = [];
     for (Map<String, dynamic> result in maps) {
@@ -55,7 +78,8 @@ class WikiDAO {
           WikiTable.columnKey,
           WikiTable.columnDescription,
           WikiTable.columnExcerpt,
-          WikiTable.columnThumbnail
+          WikiTable.columnThumbnail,
+          WikiTable.columnBookmark
         ],
         where:
             "${WikiTable.columnTitle} LIKE '%$searchText%' OR ${WikiTable.columnExcerpt} LIKE '%$searchText%'");
@@ -72,9 +96,10 @@ class WikiDAO {
   Future<int> delete(int id) async => await _db.delete(WikiTable.tableName,
       where: '${WikiTable.columnId} = ?', whereArgs: [id]);
 
-  Future<int> update(WikiTable wiki) async =>
-      await _db.update(WikiTable.tableName, wiki.toJson(),
-          where: '${WikiTable.columnId} = ?', whereArgs: [wiki.id]);
+  Future<int> update(WikiTable wiki) async {
+    return await _db.update(WikiTable.tableName, wiki.toJson(),
+        where: '${WikiTable.columnId} = ?', whereArgs: [wiki.id]);
+  }
 
   Future close() async => _db.close();
 
@@ -87,6 +112,7 @@ class WikiDAO {
         title: result[WikiTable.columnTitle],
         excerpt: result[WikiTable.columnExcerpt],
         thumbnail: result[WikiTable.columnThumbnail],
-        description: result[WikiTable.columnDescription]);
+        description: result[WikiTable.columnDescription],
+        bookmark: result[WikiTable.columnBookmark]);
   }
 }
