@@ -16,6 +16,7 @@ import 'package:wikipedia_app/ui/components/item_wikipedia.dart';
 import 'package:wikipedia_app/utils/check_internet.dart';
 import 'package:wikipedia_app/values/strings.dart';
 
+import '../../../../values/images.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -25,6 +26,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends BaseState<HomePage> implements HomeContract {
   HomeViewModel mModel;
   List<String> histories = [];
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
@@ -32,18 +34,72 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
     mModel = Provider.of<HomeViewModel>(context, listen: false);
     mModel.contract = this;
     mModel.getWikiesLocal(20);
-
   }
 
   void onGoBack() {
     mModel.getWikiesLocal(20);
   }
 
+  void openDrawer() {
+    _scaffoldKey.currentState.openDrawer();
+  }
+
   @override
   Widget buildWidget() {
     return Consumer<HomeViewModel>(builder: (context, model, child) {
       return Scaffold(
+        key: _scaffoldKey,
         resizeToAvoidBottomInset: false,
+        drawer: Drawer(
+          child: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  child: DrawerHeader(
+                    child: Column(
+                      children: [
+                        Expanded(child: Image.asset(wikipedia_logo)),
+                      ],
+                    ),
+                  ),
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Container(
+                        child: Icon(Icons.bookmark_outline),
+                        margin: EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                      Text("Bookmark"),
+                    ],
+                  ),
+                  onTap: () {
+                    Route route =
+                        MaterialPageRoute(builder: (context) => Bookmark());
+                    Navigator.push(context, route).then((value) => onGoBack());
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: [
+                      Container(
+                        child: Icon(Icons.history),
+                        margin: EdgeInsets.symmetric(horizontal: 16),
+                      ),
+                      Text("History"),
+                    ],
+                  ),
+                  onTap: () {
+                    Route route =
+                        MaterialPageRoute(builder: (context) => Bookmark());
+                    Navigator.push(context, route).then((value) => onGoBack());
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
         body: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
@@ -52,18 +108,18 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
           child: LoadingWidget(
             message: please_wait,
             status: model.isLoadData,
-            child: _buildBody(model),
+            child: _buildBody(model, openDrawer),
           ),
         ),
       );
     });
   }
 
-  Widget _buildBody(HomeViewModel model) {
+  Widget _buildBody(HomeViewModel model, Function openDrawer) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
-        _buildSearch(model),
+        _buildSearch(model, openDrawer),
         model.searchResponse != null && model.searchResponse.pages != null
             ? _buildListWiki(model.searchResponse.pages)
             : Container()
@@ -71,7 +127,7 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
     );
   }
 
-  Widget _buildSearch(HomeViewModel model) {
+  Widget _buildSearch(HomeViewModel model, Function openDrawer) {
     return Container(
       decoration: BoxDecoration(
           border: Border(
@@ -97,14 +153,7 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
               },
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.bookmark_outline),
-            color: Colors.grey[500],
-            onPressed: () {
-              Route route = MaterialPageRoute(builder: (context) => Bookmark());
-              Navigator.push(context, route).then((value) => onGoBack());
-            },
-          )
+          IconButton(icon: Icon(Icons.menu), onPressed: openDrawer)
         ],
       ),
     );
