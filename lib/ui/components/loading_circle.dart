@@ -31,11 +31,10 @@ class _LoadingCircleState extends State<LoadingCircle>
     print(dotRadius);
 
     controller = AnimationController(
-        lowerBound: 0.0,
-        upperBound: 1.0,
-        duration: const Duration(milliseconds: 3000),
-        vsync: this
-  );
+      lowerBound: 0.0,
+      upperBound: 1.0,
+      duration: const Duration(milliseconds: 3000),
+    );
 
     animationRotation = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(

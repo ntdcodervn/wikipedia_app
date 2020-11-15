@@ -25,10 +25,10 @@ void main() {
         ),
       ],
       child: MaterialApp(
-        
-          theme: appTheme,
-          debugShowCheckedModeBanner: false,
-          home: SplashScreen()),
+        theme: appTheme,
+        debugShowCheckedModeBanner: false,
+        home: SplashScreen(),
+      ),
     ),
   );
 }
