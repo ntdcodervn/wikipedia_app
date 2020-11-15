@@ -50,6 +50,7 @@ class HomeViewModel extends ChangeNotifier {
     isLoadData = false;
     // this.deleteTable();
     searchResponse.pages.forEach((element) {
+      element.watchtime = 0;
       _wikiDAO.insert(element);
     });
     notifyListeners();

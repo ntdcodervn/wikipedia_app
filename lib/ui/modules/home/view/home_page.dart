@@ -8,6 +8,7 @@ import 'package:wikipedia_app/data/model/response/search_response.dart';
 import 'package:wikipedia_app/routes/navigation.dart';
 import 'package:wikipedia_app/ui/components/loading.dart';
 import 'package:wikipedia_app/ui/modules/bookmark/view/bookmark_page.dart';
+import 'package:wikipedia_app/ui/modules/history/view/history_page.dart';
 import 'package:wikipedia_app/ui/modules/home/contract/home_contract.dart';
 import 'package:wikipedia_app/ui/modules/home/view_model/home_view_model.dart';
 import 'package:wikipedia_app/ui/modules/wikipedia_detail/view/wikipedia_detail.dart';
@@ -25,7 +26,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends BaseState<HomePage> implements HomeContract {
   HomeViewModel mModel;
-  List<String> histories = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -93,7 +93,7 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
                   ),
                   onTap: () {
                     Route route =
-                        MaterialPageRoute(builder: (context) => Bookmark());
+                        MaterialPageRoute(builder: (context) => HistoryPage());
                     Navigator.push(context, route).then((value) => onGoBack());
                   },
                 )

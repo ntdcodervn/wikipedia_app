@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:wikipedia_app/base/base_state.dart';
 import 'package:wikipedia_app/data/model/error/get_page_error.dart';
 import 'package:wikipedia_app/data/model/local_model/wiki_detail.dart';
+import 'package:wikipedia_app/data/sources/local/dbconfig.dart';
 import 'package:wikipedia_app/ui/components/loading.dart';
 import 'package:wikipedia_app/ui/modules/wikipedia_detail/contract/wikipedia_contract.dart';
 import 'package:wikipedia_app/ui/modules/wikipedia_detail/view_model/wikipedia_view_model.dart';
@@ -33,9 +34,10 @@ class _WikiDetailPageState extends BaseState<WikiDetailPage>
     implements WikiDetailContract {
   WikiDetailViewModel mModel;
   Completer<WebViewController> _controller = Completer<WebViewController>();
-  WikiDAO _wikiDAO = new WikiDAO();
   int bookmark;
+  WikiDAO _wikiDAO = WikiDAO();
 
+  Future _getDbInstance() async => await DbConfig.getInstance();
 
   @override
   void initState() {
@@ -43,14 +45,17 @@ class _WikiDetailPageState extends BaseState<WikiDetailPage>
     mModel = Provider.of<WikiDetailViewModel>(context, listen: false);
     mModel.contract = this;
     mModel.onGetDetail(widget.title);
-
+    updateWikiLocal(widget.wikipediaDetail.bookmark);
     setState(() {
       bookmark = widget.wikipediaDetail.bookmark;
     });
     mModel.isLoadData = true;
   }
 
- 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
 
   @override
   Widget buildWidget() {
@@ -70,6 +75,15 @@ class _WikiDetailPageState extends BaseState<WikiDetailPage>
     });
   }
 
+  Future<int> updateWikiLocal(int bookmarkParam) async {
+    widget.wikipediaDetail.bookmark = bookmarkParam;
+    widget.wikipediaDetail.watchtime = DateTime.now().millisecondsSinceEpoch;
+    await _getDbInstance();
+    WikiTable wikiTable =
+        new WikiTable.fromJson(widget.wikipediaDetail.toJson());
+    return await _wikiDAO.update(wikiTable);
+  }
+
   Widget _appBar() {
     return AppBar(
       leading: IconButton(
@@ -83,21 +97,14 @@ class _WikiDetailPageState extends BaseState<WikiDetailPage>
         IconButton(
           icon: Icon(bookmark == 1 ? Icons.bookmark : Icons.bookmark_outline),
           color: bookmark == 1 ? Colors.orange : Colors.grey[500],
-          onPressed: () {
+          onPressed: () async {
             if (bookmark == 1) {
-              widget.wikipediaDetail.bookmark = 0;
-              WikiTable wikiTable =
-                  new WikiTable.fromJson(widget.wikipediaDetail.toJson());
-              _wikiDAO.update(wikiTable);
+              await updateWikiLocal(0);
               setState(() {
                 bookmark = 0;
               });
             } else {
-              widget.wikipediaDetail.bookmark = 1;
-              WikiTable wikiTable =
-                  new WikiTable.fromJson(widget.wikipediaDetail.toJson());
-              _wikiDAO.update(wikiTable);
-
+              await updateWikiLocal(1);
               setState(() {
                 bookmark = 1;
               });

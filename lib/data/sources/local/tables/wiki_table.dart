@@ -7,6 +7,7 @@ class WikiTable {
   static final String columnDescription = 'description';
   static final String columnThumbnail = 'thumbnail';
   static final String columnBookmark = 'bookmark';
+  static final String columnWatchTime = 'watchtime';
 
   int id;
   String title;
@@ -15,15 +16,17 @@ class WikiTable {
   String description;
   String thumbnail;
   int bookmark;
+  int watchtime;
 
-  Map<String,dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         columnId: id,
         columnTitle: title,
         columnKey: key,
         columnExcerpt: excerpt,
         columnDescription: description,
         columnThumbnail: thumbnail,
-        columnBookmark: bookmark
+        columnBookmark: bookmark,
+        columnWatchTime: watchtime
       };
 
   static List<WikiTable> fromJsonList(List<dynamic> json) =>
@@ -37,6 +40,7 @@ class WikiTable {
     description = json[columnDescription];
     thumbnail = json[columnThumbnail];
     bookmark = json[columnBookmark];
+    watchtime = json[columnWatchTime];
   }
 
   static String create() {
@@ -47,7 +51,8 @@ class WikiTable {
             "$columnExcerpt TEXT,"
             "$columnDescription TEXT,"
             "$columnThumbnail TEXT,"
-            "$columnBookmark INTEGER"
+            "$columnBookmark INTEGER,"
+            "$columnWatchTime INTEGER"
             ")";
   }
 

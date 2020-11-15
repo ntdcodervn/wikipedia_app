@@ -8,36 +8,36 @@ import 'package:wikipedia_app/data/model/local_model/wikipedia.dart';
 import 'package:wikipedia_app/data/model/response/search_response.dart';
 import 'package:wikipedia_app/routes/navigation.dart';
 import 'package:wikipedia_app/ui/components/loading.dart';
-import 'package:wikipedia_app/ui/modules/bookmark/contract/bookmark_contract.dart';
-import 'package:wikipedia_app/ui/modules/bookmark/view_model/bookmark_view_model.dart';
+import 'package:wikipedia_app/ui/modules/history/contract/history_contract.dart';
+import 'package:wikipedia_app/ui/modules/history/view_model/history_view_model.dart';
 import 'package:wikipedia_app/ui/modules/wikipedia_detail/view/wikipedia_detail.dart';
 import 'package:wikipedia_app/ui/components/item_wikipedia.dart';
 import 'package:wikipedia_app/utils/check_internet.dart';
 import 'package:wikipedia_app/values/strings.dart';
 
-class Bookmark extends StatefulWidget {
+class HistoryPage extends StatefulWidget {
   @override
-  _BookmarkState createState() => _BookmarkState();
+  _HistoryState createState() => _HistoryState();
 }
 
-class _BookmarkState extends BaseState<Bookmark> implements BookmarkContract {
-  BookmarkViewModel mModel;
+class _HistoryState extends BaseState<HistoryPage> implements HistoryContract {
+  HistoryViewModel mModel;
 
   @override
   void initState() {
     super.initState();
-    mModel = Provider.of<BookmarkViewModel>(context, listen: false);
+    mModel = Provider.of<HistoryViewModel>(context, listen: false);
     mModel.contract = this;
-    mModel.getWikiesBookmarkLocal();
+    mModel.getWikiesHistoryLocal();
   }
 
   void onGoBack() {
-    mModel.getWikiesBookmarkLocal();
+    mModel.getWikiesHistoryLocal();
   }
 
   @override
   Widget buildWidget() {
-    return Consumer<BookmarkViewModel>(builder: (context, model, child) {
+    return Consumer<HistoryViewModel>(builder: (context, model, child) {
       return Scaffold(
         resizeToAvoidBottomInset: false,
         body: GestureDetector(
@@ -55,7 +55,7 @@ class _BookmarkState extends BaseState<Bookmark> implements BookmarkContract {
     });
   }
 
-  Widget _buildBody(BookmarkViewModel model) {
+  Widget _buildBody(HistoryViewModel model) {
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -67,7 +67,7 @@ class _BookmarkState extends BaseState<Bookmark> implements BookmarkContract {
     );
   }
 
-  Widget _buildSearch(BookmarkViewModel model) {
+  Widget _buildSearch(HistoryViewModel model) {
     return Container(
       decoration: BoxDecoration(
           border: Border(
@@ -93,9 +93,16 @@ class _BookmarkState extends BaseState<Bookmark> implements BookmarkContract {
           ),
           Expanded(
             child: Text(
-              'Bookmark',
+              'History',
               style: TextStyle(fontSize: 18),
             ),
+          ),
+          IconButton(
+            icon: Icon(Icons.delete),
+            color: Colors.red[300],
+            onPressed: () {
+              mModel.clearHistory();
+            },
           ),
         ],
       ),

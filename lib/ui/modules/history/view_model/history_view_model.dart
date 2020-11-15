@@ -5,30 +5,28 @@ import 'package:wikipedia_app/data/model/response/search_response.dart';
 import 'package:wikipedia_app/data/sources/local/daos/wiki_dao.dart';
 import 'package:wikipedia_app/data/sources/local/dbconfig.dart';
 import 'package:wikipedia_app/data/sources/repositories/home/home_repository.dart';
-import 'package:wikipedia_app/ui/modules/bookmark/contract/bookmark_contract.dart';
+import 'package:wikipedia_app/ui/modules/history/contract/history_contract.dart';
 import 'package:wikipedia_app/utils/check_internet.dart';
 
-class BookmarkViewModel extends ChangeNotifier {
+class HistoryViewModel extends ChangeNotifier {
   TextEditingController searchTextController;
   HomeRepository _repository;
-  BookmarkContract contract;
+  HistoryContract contract;
   SearchResponse searchResponse;
   bool isLoadData;
   bool validateSearch = false;
   WikiDAO _wikiDAO = WikiDAO();
   List<Wikipedia> wikies = [];
 
-  BookmarkViewModel() {
+  HistoryViewModel() {
     isLoadData = true;
     _repository = Injector().onSearch;
     searchTextController = TextEditingController();
     _getDbInstance().then((value) {
       isLoadData = false;
-      this.getWikiesBookmarkLocal();
+      this.getWikiesHistoryLocal();
     });
   }
-
-  
 
   Future _getDbInstance() async => await DbConfig.getInstance();
 
@@ -62,16 +60,22 @@ class BookmarkViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearHistory() async {
+    searchResponse = SearchResponse();
+    await _wikiDAO.clearWatchTime();
+    searchResponse.pages = await _wikiDAO.getWikiesHistory();
+    notifyListeners();
+  }
+
   void getWikiesLocal(int limit) async {
     searchResponse = SearchResponse();
     searchResponse.pages = await _wikiDAO.getWikies(limit);
     notifyListeners();
   }
 
-
-  void getWikiesBookmarkLocal() async {
+  void getWikiesHistoryLocal() async {
     searchResponse = SearchResponse();
-    searchResponse.pages = await _wikiDAO.getWikiesBookmark();
+    searchResponse.pages = await _wikiDAO.getWikiesHistory();
     notifyListeners();
   }
 

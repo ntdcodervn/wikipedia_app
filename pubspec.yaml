@@ -42,8 +42,7 @@ dependencies:
     flutter_spinkit: ^4.1.2
     transparent_image: ^1.0.0
     google_fonts: ^1.1.1
-    bot_toast: ^3.0.5
-
+    
 dev_dependencies:
     flutter_test:
         sdk: flutter

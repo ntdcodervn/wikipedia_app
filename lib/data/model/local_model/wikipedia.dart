@@ -6,6 +6,7 @@ class Wikipedia {
   String description;
   String thumbnail;
   int bookmark;
+  int watchtime;
 
   Wikipedia(
       {this.id,
@@ -14,7 +15,8 @@ class Wikipedia {
       this.excerpt,
       this.description,
       this.thumbnail,
-      this.bookmark});
+      this.bookmark,
+      this.watchtime});
 
   Wikipedia.fromJson(Map<String, dynamic> json) {
     id = json['id'] != null ? json['id'] : "";
@@ -24,6 +26,7 @@ class Wikipedia {
     description = json['description'] != null ? json['description'] : "";
     thumbnail = json['thumbnail'] != null ? json['thumbnail']['url'] : "";
     bookmark = json['bookmark'] != null ? json['bookmark'] : 0;
+    watchtime = json['watchtime'] != null ? json['bookmark'] : 0;
   }
 
   Map<String, dynamic> toJson() {
@@ -35,6 +38,7 @@ class Wikipedia {
     data['description'] = this.description;
     data['thumbnail'] = this.thumbnail;
     data['bookmark'] = this.bookmark;
+    data['watchtime'] = this.watchtime;
 
     return data;
   }
