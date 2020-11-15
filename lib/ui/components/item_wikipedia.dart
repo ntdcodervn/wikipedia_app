@@ -14,7 +14,7 @@ class ItemWikipediaWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
+      margin: EdgeInsets.only(bottom: 20),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -23,7 +23,7 @@ class ItemWikipediaWidget extends StatelessWidget {
             offset: Offset(0, 3),
           ),
         ],
-        color: Colors.white,
+        color: Color.fromRGBO(249, 249, 249, 1),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Container(

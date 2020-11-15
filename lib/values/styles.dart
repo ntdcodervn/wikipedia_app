@@ -11,7 +11,7 @@ final TextStyle styleNormalRegularBlack = TextStyle(
     fontFamily: sanFranciscoRegular);
 
 final TextStyle styleRegularBlue = GoogleFonts.montserrat(
-    color: Colors.black.withOpacity(.9),
+    color: Color.fromRGBO(6, 69, 173, 1),
     fontSize: 18,
     fontWeight: FontWeight.w500);
 

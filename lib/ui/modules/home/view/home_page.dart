@@ -49,6 +49,7 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
     return Consumer<HomeViewModel>(builder: (context, model, child) {
       return Scaffold(
         key: _scaffoldKey,
+        backgroundColor: Colors.white,
         resizeToAvoidBottomInset: false,
         drawer: Drawer(
           child: SafeArea(
@@ -133,7 +134,7 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
           border: Border(
             bottom: BorderSide(width: 1, color: Colors.grey[200]),
           ),
-          color: Colors.white,
+          color: Color.fromRGBO(41, 121, 255, 1),
           boxShadow: [
             BoxShadow(
               color: Colors.blue.withOpacity(0.1),
@@ -153,7 +154,12 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
               },
             ),
           ),
-          IconButton(icon: Icon(Icons.menu), onPressed: openDrawer)
+          IconButton(
+              icon: Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
+              onPressed: openDrawer)
         ],
       ),
     );

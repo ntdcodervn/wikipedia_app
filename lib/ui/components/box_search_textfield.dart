@@ -22,8 +22,13 @@ class _BoxSearchTextFieldState extends BaseState<BoxSearchTextField> {
   Widget buildWidget() {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.blueGrey[50],
+        color: Color.fromRGBO(249, 249, 249, 1),
         borderRadius: BorderRadius.circular(40),
+        border: Border.all(
+          width: 1,
+          style: BorderStyle.solid,
+          color: Color.fromRGBO(162, 169, 177, 1),
+        ),
       ),
       padding: EdgeInsets.all(15),
       child: Row(
