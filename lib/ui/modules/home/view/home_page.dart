@@ -224,32 +224,3 @@ class _HomePageState extends BaseState<HomePage> implements HomeContract {
     ]);
   }
 }
-
-class TagItem extends StatelessWidget {
-  final label;
-  final active;
-  const TagItem({
-    Key key,
-    this.label,
-    this.active = false,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(right: 10),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(25),
-        child: Container(
-          color: !active ? Colors.grey[200] : Colors.amber,
-          child: OutlineButton(
-            padding: EdgeInsets.zero,
-            borderSide: BorderSide.none,
-            onPressed: () {},
-            child: Text('$label'),
-          ),
-        ),
-      ),
-    );
-  }
-}

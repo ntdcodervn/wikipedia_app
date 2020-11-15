@@ -27,4 +27,4 @@ final Color toastTextColor = Colors.white;
 final Color textColorBlack = Colors.black;
 final Color textColorBlue = Colors.blue[600];
 final Color textColorLightGreen = Colors.lightGreen[700];
-final Color loadingColor = Colors.indigo[200];
+final Color loadingColor = Colors.black.withOpacity(.8);
